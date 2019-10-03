@@ -3,23 +3,22 @@ H`VAC` A`uto` C`lient`
 
 This is a temporary repo while i work on the initial version of the HVAC Auto Client (HAC), a hashicorp vault python client generated from OpenAPI 3.0 spec
 
-Testing in hashicorp_vault_client/client.py
+How the client was generated:
 ```
-import hashicorp_vault_client
-from hashicorp_vault_client.api.system_api import SystemApi
+$ cat config.json
+{
+  "packageName":"hashicorp_vault_client",
+  "projectName":"hashicorp_vault_client",
+  "packageVersion":"0.0.1"
+}
 
-vault_url = 'http://127.0.0.1:8205'
-
-client = SystemApi()
-print(client.get_sys_health(vault_url))
+git clone https://github.com/swagger-api/swagger-codegen
+cd swagger-codegen
+git checkout 3.0.0
+mvn clean package
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+   -i vault-spec.json \
+   -l python \
+   -o hashicorp_vault_client \
+   -c config.json
 ```
-
-Error output:
-```
-python hashicorp_vault_client/client.py
-Traceback (most recent call last):
-  File "hashicorp_vault_client/client.py", line 7, in <module>
-    print(client.get_sys_health(vault_url))
-TypeError: get_sys_health() takes 1 positional argument but 2 were given
-```
-
